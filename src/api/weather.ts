@@ -25,7 +25,10 @@ const fetchWeatherForecastByCityName = async (
   return data;
 };
 
-const fetchWeatherByCityCords = async (lat: number, lon: number) => {
+const fetchWeatherByCityCords = async (
+  lat: number,
+  lon: number
+): Promise<Weather> => {
   const { data } = await api.get('/weather', {
     params: {
       lat,

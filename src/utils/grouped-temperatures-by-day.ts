@@ -1,6 +1,6 @@
 import { WeatherForecastList } from '@/types/responses/weather-forecast';
 
-import { getDayOfWeek } from './formated-day';
+import { getDayOfWeek } from './get-day-of-the-week';
 import { isToday } from './is-today';
 
 interface TemperatureStats {

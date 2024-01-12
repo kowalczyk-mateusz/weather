@@ -1,6 +1,6 @@
 import { InternalAxiosRequestConfig } from 'axios';
 
-export const attachApiKeyInterceptor = (config: InternalAxiosRequestConfig) => {
+export const interceptor = (config: InternalAxiosRequestConfig) => {
   config.params = config.params || {};
   config.params['appid'] = process.env.API_KEY;
   config.params['units'] = 'metric';

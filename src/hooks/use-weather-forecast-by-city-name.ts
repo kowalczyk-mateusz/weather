@@ -7,7 +7,7 @@ import { WEATHER_STALE_TIME_IN_MILLISECONDS } from '@/utils/constants';
 import {
   WeatherForecastByDay,
   groupTemperaturesByDay,
-} from '@/utils/group-temperatures-by-day';
+} from '@/utils/grouped-temperatures-by-day';
 
 export const useWeatherForecastByCityName = (cityName: string) => {
   const normalizedCityName = decodeURIComponent(cityName);

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { attachApiKeyInterceptor } from '../interceptors/attach-api-key-interceptor';
+import { interceptor } from '../interceptors/interceptor';
 
 const api = axios.create({
   baseURL: `${process.env.BASE_URL}`,
 });
-api.interceptors.request.use(attachApiKeyInterceptor);
+api.interceptors.request.use(interceptor);
 
 export default api;

@@ -1,4 +1,4 @@
-import { WeatherForecastByDay } from '@/utils/group-temperatures-by-day';
+import { WeatherForecastByDay } from '@/utils/grouped-temperatures-by-day';
 
 import { WeatherForecastTableSkeleton } from './skeleton';
 
