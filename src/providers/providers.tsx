@@ -7,7 +7,13 @@ interface Props {
   children: ReactNode;
 }
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
 
 export const Providers = ({ children }: Props) => {
   return (
