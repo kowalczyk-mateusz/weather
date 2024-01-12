@@ -1,4 +1,4 @@
-import { WeatherForecastByDay } from '@/hooks/use-weather-forecast-by-city-name';
+import { WeatherForecastByDay } from '@/utils/group-temperatures-by-day';
 
 import { WeatherForecastTableSkeleton } from './skeleton';
 
@@ -34,7 +34,7 @@ export const WeatherForecastTable = ({ data, isLoading }: Props) => {
       <p className='mt-6 text-center text-3xl font-bold text-white'>
         Next 5 Days Forecast
       </p>
-      <div className='flex justify-center'>
+      <div className='flex justify-center overflow-y-scroll'>
         <div className='mt-2 w-full max-w-md'>
           <table className='w-full overflow-hidden rounded-lg bg-white text-center text-black'>
             <thead className='bg-blue-500 text-white'>
@@ -49,7 +49,7 @@ export const WeatherForecastTable = ({ data, isLoading }: Props) => {
             <tbody>
               {data?.map(({ avgTemp, dayName, maxTemp, minTemp }, index) => (
                 <tr key={dayName + index}>
-                  <td className='p-2'>{dayName}</td>
+                  <td className='p-2 '>{dayName}</td>
                   <td className='p-2'>{avgTemp}°C</td>
                   <td className='p-2'>{minTemp}°C</td>
                   <td className='p-2'>{maxTemp}°C</td>

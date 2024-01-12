@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-const DEFAULT_CITIES = ['Katowice', 'Gliwice', 'Gdańsk', 'Warszawa', 'Kraków'];
+import { DEFAULT_CITIES } from '@/utils/constants';
+
+const getLocalStorage = (key: string): string[] => {
+  const currentLocalStorage = localStorage.getItem(key);
+  const parsedLocalStorage = currentLocalStorage
+    ? JSON.parse(currentLocalStorage)
+    : [];
+
+  return parsedLocalStorage;
+};
 
 export const useLocalStorage = (key: string) => {
   const [cities, setCities] = useState<string[]>([]);
-  const [hasChanged, setHasChanged] = useState<boolean>(false);
 
   useEffect(() => {
-    const currentLocalStorage = localStorage.getItem(key);
-    const parsedLocalStorage = currentLocalStorage
-      ? JSON.parse(currentLocalStorage)
-      : [];
+    const localStorageCities = getLocalStorage(key);
 
-    if (parsedLocalStorage.length <= 0) {
+    if (localStorageCities.length <= 0) {
       localStorage.setItem(key, JSON.stringify(DEFAULT_CITIES));
       setCities(DEFAULT_CITIES);
     } else {
-      setCities(parsedLocalStorage);
+      setCities(localStorageCities);
     }
   }, [key]);
 
@@ -26,30 +32,24 @@ export const useLocalStorage = (key: string) => {
   };
 
   const addToLocalStorage = (value: string) => {
-    const currentLocalStorage = localStorage.getItem(key);
+    const localStorageCities = getLocalStorage(key);
 
-    if (currentLocalStorage) {
-      const parsedLocalStorage = JSON.parse(currentLocalStorage);
-      if (!parsedLocalStorage.includes(value)) {
-        parsedLocalStorage.push(value);
-        updateLocalStorage(parsedLocalStorage);
-      }
+    if (
+      localStorageCities
+        .map((city) => city.toLowerCase())
+        .includes(value.toLowerCase())
+    ) {
+      toast.error(`${value} is already on the list!`);
+      return;
     } else {
-      updateLocalStorage([value]);
+      updateLocalStorage([...localStorageCities, value]);
     }
   };
 
   const removeFromLocalStorage = (value: string) => {
-    const currentLocalStorage = localStorage.getItem(key);
-
-    if (currentLocalStorage) {
-      const parsedLocalStorage = JSON.parse(currentLocalStorage);
-      const index = parsedLocalStorage.indexOf(value);
-
-      if (index !== -1) {
-        parsedLocalStorage.splice(index, 1);
-        updateLocalStorage(parsedLocalStorage);
-      }
+    const localStorageCities = getLocalStorage(key);
+    if (localStorageCities.includes(value)) {
+      updateLocalStorage(localStorageCities.filter((city) => city !== value));
     }
   };
 

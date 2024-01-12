@@ -3,12 +3,15 @@ import toast from 'react-hot-toast';
 
 import { Weather as WeatherType } from '@/types/responses/weather';
 
+import { WeatherIconText } from '../weather-icon-text';
+
 import { WeatherSkeleton } from './skeleton';
 
 interface Props {
   isLoading: boolean;
   data: WeatherType | undefined;
 }
+
 const options: Intl.DateTimeFormatOptions = {
   hour: 'numeric',
   minute: 'numeric',
@@ -19,9 +22,16 @@ export const Weather = ({ data, isLoading }: Props) => {
   if (isLoading && !data) return <WeatherSkeleton />;
 
   const copyUrlToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(decodeURIComponent(window.location.href));
     toast.success('Copied to clipboard');
   };
+
+  const sunriseTime = new Date(
+    (data?.sys?.sunrise ?? 0) * 1000
+  ).toLocaleTimeString('pl-PL', options);
+  const sunsetTime = new Date(
+    (data?.sys?.sunset ?? 0) * 1000
+  ).toLocaleTimeString('pl-PL', options);
 
   return (
     <>
@@ -51,31 +61,16 @@ export const Weather = ({ data, isLoading }: Props) => {
           {(data?.main?.temp ?? 0).toFixed(1)}°C
         </p>
       </div>
-      <div className='mt-4 flex items-center justify-center gap-4'>
-        <Image
-          src='./icons/sunrise.svg'
-          width={30}
-          height={30}
-          alt='sunrise icon'
-        />
-        <p className='text-xl text-white'>
-          Sunrise at{' '}
-          {new Date((data?.sys?.sunrise ?? 0) * 1000).toLocaleTimeString(
-            'pl-PL',
-            options
-          )}
-        </p>
-      </div>
-      <div className='mt-2 flex items-center justify-center gap-4'>
-        <Image src='./icons/moon.svg' width={30} height={30} alt='moon icon' />
-        <p className='text-xl text-white'>
-          Sunset at
-          {new Date((data?.sys?.sunset ?? 0) * 1000).toLocaleString(
-            'pl-PL',
-            options
-          )}
-        </p>
-      </div>
+      <WeatherIconText
+        iconSrc='./icons/sunrise.svg'
+        iconAlt='sunrise icon'
+        text={`Sunrise at ${sunriseTime}`}
+      />
+      <WeatherIconText
+        iconSrc='./icons/moon.svg'
+        iconAlt='moon icon'
+        text={`Sunset at ${sunsetTime}`}
+      />
     </>
   );
 };
