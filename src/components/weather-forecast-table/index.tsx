@@ -1,6 +1,5 @@
+import { WeatherForecastTableSkeleton } from '@/components/weather-forecast-table/skeleton';
 import { WeatherForecastByDay } from '@/utils/grouped-temperatures-by-day';
-
-import { WeatherForecastTableSkeleton } from './skeleton';
 
 interface Props {
   data: WeatherForecastByDay[] | undefined;

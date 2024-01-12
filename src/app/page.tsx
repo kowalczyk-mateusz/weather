@@ -1,11 +1,14 @@
 'use client';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { Cities } from '@/components/cities';
 import { Search } from '@/components/search';
-import { useCityNameByCords } from '@/hooks/use-city-by-cords';
+import { useCheckIfCityExists } from '@/hooks/api/use-check-if-city-exists';
+import { useCityNameByCords } from '@/hooks/api/use-city-by-cords';
+import { useCitiesLocalStorage } from '@/hooks/use-cities-local-storage';
 import { useCurrentLocation } from '@/hooks/use-current-location';
-import { useLocalStorage } from '@/hooks/use-local-storage';
+import { ApiError } from '@/types/responses/api-error';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -14,20 +17,31 @@ export default function Home() {
 
   const { mutateAsync: getCityNameByCords, isPending } = useCityNameByCords();
 
-  const { addToLocalStorage, cities, removeFromLocalStorage } =
-    useLocalStorage('cities');
+  const checkIfCityExists = useCheckIfCityExists();
 
-  const handleAddCityToLocalStorage = () => {
+  const { addToLocalStorage, cities, removeFromLocalStorage } =
+    useCitiesLocalStorage('cities');
+
+  const handleAddCityToLocalStorage = async () => {
     if (query.length < 2) return;
 
-    addToLocalStorage(query);
-    setQuery('');
+    try {
+      await checkIfCityExists.mutateAsync(query);
+      addToLocalStorage(query);
+      setQuery('');
+    } catch (error) {
+      const typedError = error as ApiError;
+
+      if (typedError.response.data.cod === '404') {
+        toast.error(`City ${query} not found.`);
+      } else {
+        toast.error(typedError.response.data.message ?? 'Something went wrong');
+      }
+    }
   };
 
   const addCoordCityToLocalStorage = async () => {
     const { lat, lon } = await getLocation();
-
-    if (!lat || !lon) return;
 
     const { name } = await getCityNameByCords({ lat, lon });
 

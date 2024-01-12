@@ -39,10 +39,8 @@ const fetchWeatherByCityCords = async (
   return data;
 };
 
-const weatherApi = {
+export {
   fetchWeatherByCityName,
   fetchWeatherForecastByCityName,
   fetchWeatherByCityCords,
 };
-
-export default weatherApi;

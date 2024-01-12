@@ -1,4 +1,4 @@
-import { WeatherType } from '../enum/weather-type';
+import { WeatherType } from '@/types/enum/weather-type';
 
 export interface Weather {
   coord: {

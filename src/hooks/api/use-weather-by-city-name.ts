@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { weatherKeys } from '@/api/query-keys/weather-keys';
-import weatherApi from '@/api/weather';
+import { fetchWeatherByCityName } from '@/api/weather';
 import { Weather } from '@/types/responses/weather';
 import { WEATHER_STALE_TIME_IN_MILLISECONDS } from '@/utils/constants';
 
@@ -10,7 +10,7 @@ export const useWeatherByCityName = (cityName: string) => {
 
   return useQuery<Weather>({
     queryKey: weatherKeys.detail(normalizedCityName),
-    queryFn: () => weatherApi.fetchWeatherByCityName(normalizedCityName),
+    queryFn: () => fetchWeatherByCityName(normalizedCityName),
     enabled: !!cityName,
     staleTime: WEATHER_STALE_TIME_IN_MILLISECONDS,
   });

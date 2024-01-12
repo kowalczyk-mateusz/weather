@@ -1,11 +1,9 @@
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 
+import { WeatherSkeleton } from '@/components/weather/skeleton';
+import { WeatherIconText } from '@/components/weather-icon-text';
 import { Weather as WeatherType } from '@/types/responses/weather';
-
-import { WeatherIconText } from '../weather-icon-text';
-
-import { WeatherSkeleton } from './skeleton';
 
 interface Props {
   isLoading: boolean;

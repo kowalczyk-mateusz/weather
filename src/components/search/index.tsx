@@ -32,6 +32,7 @@ export const Search = ({
           className='w-full rounded-md border border-solid border-gray-200 px-4 invalid:border-red-500 invalid:text-red-500 focus:invalid:border-red-500 focus:invalid:outline-red-500 focus:invalid:ring-red-500'
           placeholder='Add city'
           value={query}
+          name='city'
           type='text'
           minLength={2}
           onChange={handleChangeQuery}
@@ -39,7 +40,7 @@ export const Search = ({
 
         <button
           className='rounded-md bg-black px-4 py-2 font-medium text-white'
-          onClick={onSubmit}
+          type='submit'
         >
           Add
         </button>
@@ -53,7 +54,7 @@ export const Search = ({
       <button
         className={clsx(
           'mt-2 w-full rounded-md border border-solid border-gray-200 bg-white px-4 py-2 font-medium text-black',
-          isLoading ? 'cursor-not-allowed opacity-50  ' : ''
+          isLoading && 'cursor-not-allowed opacity-50'
         )}
         onClick={requestCurrentLocation}
         disabled={isLoading}

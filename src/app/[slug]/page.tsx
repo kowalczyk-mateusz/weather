@@ -4,14 +4,16 @@ import { Back } from '@/components/back';
 import { CityNotFound } from '@/components/city-not-found';
 import { Weather } from '@/components/weather';
 import { WeatherForecastTable } from '@/components/weather-forecast-table';
-import { useWeatherByCityName } from '@/hooks/use-weather-by-city-name';
-import { useWeatherForecastByCityName } from '@/hooks/use-weather-forecast-by-city-name';
+import { useWeatherByCityName } from '@/hooks/api/use-weather-by-city-name';
+import { useWeatherForecastByCityName } from '@/hooks/api/use-weather-forecast-by-city-name';
 
-export default function City({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
+interface Props {
+  params: {
+    slug: string;
+  };
+}
+
+export default function City({ params: { slug } }: Props) {
   const { data, isLoading } = useWeatherByCityName(slug);
   const { data: forecastData, isLoading: forecastIsLoading } =
     useWeatherForecastByCityName(slug);

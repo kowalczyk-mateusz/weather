@@ -1,6 +1,6 @@
 export const WeatherSkeleton = () => {
   return (
-    <>
+    <div data-testid='weather-skeleton'>
       <h1 className='mt-10 animate-pulse text-center text-5xl font-bold text-white'>
         Loading...
       </h1>
@@ -18,6 +18,6 @@ export const WeatherSkeleton = () => {
         <div className='h-6 w-6 rounded-full bg-gray-300' />
         <p className='text-lg'>Sunset at --:-- PM</p>
       </div>
-    </>
+    </div>
   );
 };

@@ -20,16 +20,16 @@ export const useCurrentLocation = () => {
         lat = position.coords.latitude;
         lon = position.coords.longitude;
       } catch (error) {
-        console.error('Error getting user location:', error);
         toast.error(
           'We could not get your location. Please reset your permissions'
         );
+        throw error;
       } finally {
         setIsLoading(false);
       }
     } else {
-      console.error('Geolocation is not supported by this browser.');
       setIsLoading(false);
+      throw new Error('Geolocation is not supported by this browser.');
     }
     return { lat, lon };
   }, []);
